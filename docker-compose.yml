@@ -1,0 +1,47 @@
+# Self-hosted Mealie stack — template for a small VPS.
+# Upstream: https://github.com/mealie-recipes/mealie
+
+services:
+  mealie:
+    container_name: mealie
+    image: ghcr.io/mealie-recipes/mealie:v2.7.1
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - mealie-data:/app/data/
+    ports:
+      - "127.0.0.1:${MEALIE_PORT:-9925}:9000"
+    env_file:
+      - .env
+    environment:
+      ALLOW_SIGNUP: ${ALLOW_SIGNUP:-false}
+      BASE_URL: ${BASE_URL}
+      DB_ENGINE: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-mealie}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_SERVER: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-mealie}
+      TZ: ${TZ:-UTC}
+
+  postgres:
+    container_name: mealie-postgres
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mealie}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-mealie}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mealie} -d ${POSTGRES_DB:-mealie}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  mealie-data:
+  postgres-data:

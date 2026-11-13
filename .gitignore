@@ -1,0 +1,43 @@
+# --- Secrets & local env (never commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
+credentials/
+**/agent-login.txt
+
+# --- Mealie runtime data (lives on the VPS volume) ---
+data/
+mealie-data/
+postgres-data/
+
+# --- Recipe exports & personal content ---
+exports/
+backups/
+imports/
+*.zip
+*.sql
+*.sqlite
+*.db
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+!.vscode/extensions.json
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Local overrides ---
+docker-compose.override.yml
+docker-compose.local.yml
+nginx/*.local.conf
