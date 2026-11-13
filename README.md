@@ -46,9 +46,16 @@ sudo nginx -t && sudo systemctl reload nginx
 - Point an `A` record at your VPS.
 - For orange-cloud proxy: use **Full** SSL with a valid cert on the origin (Let's Encrypt or [Cloudflare origin certificate](https://developers.cloudflare.com/ssl/origin-configuration/origin-ca/)).
 
-## GrokBot / API automation
+## GrokBot
 
-Create an API token in Mealie and use it from your agent—never commit tokens here. See [docs/meal-categories.md](docs/meal-categories.md#api--automation-optional).
+GrokBot uses a dedicated Mealie user and long-lived API token. Setup, env vars, and curl examples: **[docs/grokbot-integration.md](docs/grokbot-integration.md)**.
+
+```bash
+# On the VPS (see doc for MEALIE_ADMIN_* env vars)
+python3 scripts/create-grokbot-user.py
+```
+
+Recipe categories for planning: [docs/meal-categories.md](docs/meal-categories.md).
 
 ## Backup
 

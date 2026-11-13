@@ -9,6 +9,8 @@
 secrets/
 credentials/
 **/agent-login.txt
+grokbot-credentials.json
+**/grokbot-credentials.json
 
 # --- Mealie runtime data (lives on the VPS volume) ---
 data/
